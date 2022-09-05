@@ -1,0 +1,123 @@
+#include <stdio.h>
+#include <string.h>
+
+int check_coefficient_for_corret ();
+char * s_gets (char * string, int size, FILE * ptr_file);
+void sort_strings (char * mass_of_pointer_to_strings[], int counter);
+
+int main (void)
+{
+	FILE * ptr_file = fopen("Hamlet.txt", "r");
+	if (ptr_file == nullptr)
+	{
+		printf("File reading error.\n");
+		return -1;
+	}
+	
+	int WIDTH = 0;
+	int HEIGHT = 0;
+	
+	
+	printf("Enter the number of rows.\n");
+	HEIGHT = check_coefficient_for_corret ();   //ok
+	
+	printf("Enter the maximum number of characters per line.\n");
+	WIDTH = check_coefficient_for_corret ();  //ok
+	
+	printf("HEIGHT = %d\n", HEIGHT);
+	printf("WIDTH = %d\n", WIDTH);
+	
+	char mass_of_strings[HEIGHT][WIDTH];  //[ВЫСОТА][ДЛИНА]
+	char * mass_of_pointer_to_strings[HEIGHT] = {};
+	
+	int counter = 0;
+	
+	//printf("mass_of_strings[0][0] = %c\n", mass_of_strings[0][0]);
+	
+	//printf("s_gets (mass_of_strings[0], WIDTH) = %s\n", s_gets (mass_of_strings[0], WIDTH));
+	
+	while (counter <= HEIGHT && s_gets (mass_of_strings[counter], WIDTH, ptr_file) != NULL && mass_of_strings[counter][0] != '\0')
+	{
+		mass_of_pointer_to_strings[counter] = mass_of_strings[counter]; //устанавливаем указатели на строки
+		counter++;
+	}
+	printf("counter = %d\n", counter);
+	sort_strings (mass_of_pointer_to_strings, counter);
+	
+	puts ("\nSort in alphabetical order:\n");
+	for (int i = 0; i < HEIGHT; i++)
+	{
+		//printf("meow\n");
+		puts(mass_of_pointer_to_strings[i]);
+	}
+	
+	return 0;	
+}
+
+int check_coefficient_for_corret ()
+{
+	int coef = 0;
+	
+	while (scanf("%d", &coef) != 1)
+	{
+		printf("Enter a number again please.\n");
+		while (getchar() != '\n')
+			continue;
+	}
+	
+	return coef;
+}
+
+//char * s_gets(int * string, int size, FILE * ptr_file)
+//{
+//	int * ret_val = nullptr;
+//	int i = 0;
+//	
+//	while ((int ch = fgetc(ptr_file)) != EOF) // функция, которая корректирует длину строки
+//	{
+//		while (ch != '\0')
+//		{
+//			ret_val[i] = ch;
+//			i++;
+//			if (i >= size)
+//			{
+//				string = (char *) calloc (size*2; sizeof(int));
+//				assert(!(string == NULL));  //если не нашел, то завершаем работу
+//			}
+//		}
+//		string++;
+//	}
+//}
+char * s_gets (char * string, int size, FILE * ptr_file) //написать s_gets, которая в случае недостатка size увеличивает его в вдва раза
+{
+	char * ret_val = nullptr;
+	int i = 0;
+	ret_val = fgets (string, size, ptr_file);
+	//printf("lol_1");
+	if (ret_val)
+	{
+		//printf("lol_2");
+		while (string[i] != '\0' && string[i] != '\n')
+			i++;
+		if (string[i] == '\n')
+			string[i] = '\0';
+		else 
+			while (getchar() != '\n')
+				continue;
+	}
+	
+	return ret_val;
+}
+
+void sort_strings (char * mass_of_pointer_to_strings[], int counter)
+{
+	char * temp = nullptr;
+	for (int i = 0; i < counter - 1; i++)
+		for (int j = i + 1; j < counter; j++)
+			if (strcmp(mass_of_pointer_to_strings[i], mass_of_pointer_to_strings[j]) > 0)
+			{
+				temp = mass_of_pointer_to_strings[i];
+				mass_of_pointer_to_strings[i] = mass_of_pointer_to_strings[j];
+				mass_of_pointer_to_strings[j] = temp;
+			}
+}
