@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+const int SIZE = 15;
 
 int check_coefficient_for_corret ();
-char * s_gets (char * string, int size, FILE * ptr_file);
 void sort_strings (char * mass_of_pointer_to_strings[], int counter);
+size_t my_getline (char** dest_adr, int * size, FILE * stream);
 
 int main (void)
 {
@@ -14,29 +17,30 @@ int main (void)
 		return -1;
 	}
 	
-	int WIDTH = 0;
 	int HEIGHT = 0;
+	int WIDTH = 10;
 	
+	int ch = 0;
+
+	while ((ch = fgetc(ptr_file))!= EOF)
+	{
+		if (ch == '\n')
+			HEIGHT++;
+	}
 	
-	printf("Enter the number of rows.\n");
-	HEIGHT = check_coefficient_for_corret ();   //ok
-	
-	printf("Enter the maximum number of characters per line.\n");
-	WIDTH = check_coefficient_for_corret ();  //ok
+	char mass_of_strings[HEIGHT][WIDTH] = {};	//[ВЫСОТА][ДЛИНА]
 	
 	printf("HEIGHT = %d\n", HEIGHT);
 	printf("WIDTH = %d\n", WIDTH);
-	
-	char mass_of_strings[HEIGHT][WIDTH];  //[ВЫСОТА][ДЛИНА]
+	  
 	char * mass_of_pointer_to_strings[HEIGHT] = {};
 	
 	int counter = 0;
-	
 	//printf("mass_of_strings[0][0] = %c\n", mass_of_strings[0][0]);
 	
 	//printf("s_gets (mass_of_strings[0], WIDTH) = %s\n", s_gets (mass_of_strings[0], WIDTH));
 	
-	while (counter <= HEIGHT && s_gets (mass_of_strings[counter], WIDTH, ptr_file) != NULL && mass_of_strings[counter][0] != '\0')
+	while (my_getline(mass_of_strings, &WIDTH, ptr_file) != -1 && mass_of_strings[counter][0] != '\0')
 	{
 		mass_of_pointer_to_strings[counter] = mass_of_strings[counter]; //устанавливаем указатели на строки
 		counter++;
@@ -68,26 +72,6 @@ int check_coefficient_for_corret ()
 	return coef;
 }
 
-//char * s_gets(int * string, int size, FILE * ptr_file)
-//{
-//	int * ret_val = nullptr;
-//	int i = 0;
-//	
-//	while ((int ch = fgetc(ptr_file)) != EOF) // функция, которая корректирует длину строки
-//	{
-//		while (ch != '\0')
-//		{
-//			ret_val[i] = ch;
-//			i++;
-//			if (i >= size)
-//			{
-//				string = (char *) calloc (size*2; sizeof(int));
-//				assert(!(string == NULL));  //если не нашел, то завершаем работу
-//			}
-//		}
-//		string++;
-//	}
-//}
 char * s_gets (char * string, int size, FILE * ptr_file) //написать s_gets, которая в случае недостатка size увеличивает его в вдва раза
 {
 	char * ret_val = nullptr;
@@ -105,9 +89,10 @@ char * s_gets (char * string, int size, FILE * ptr_file) //написать s_ge
 			while (getchar() != '\n')
 				continue;
 	}
-	
+
 	return ret_val;
 }
+
 
 void sort_strings (char * mass_of_pointer_to_strings[], int counter)
 {
@@ -120,4 +105,28 @@ void sort_strings (char * mass_of_pointer_to_strings[], int counter)
 				mass_of_pointer_to_strings[i] = mass_of_pointer_to_strings[j];
 				mass_of_pointer_to_strings[j] = temp;
 			}
+}
+
+size_t my_getline (char** dest_adr, int * size, FILE * stream)
+{
+	if (*dest_adr == NULL)
+		*dest_adr = (char *) calloc (SIZE, sizeof(char));
+	if (*dest_adr == NULL)
+		return (size_t)(-1);
+	
+	int num_of_sym = 0;
+	
+	while (((*dest_adr)[num_of_sym] = fgetc(stream)) != EOF && (*dest_adr)[num_of_sym] != '\n')
+	{
+		num_of_sym++; 
+		printf("num_of_sym = %d\n", num_of_sym);
+		if (num_of_sym >= *size)
+		{
+			*size *= 2;
+			*dest_adr = (char*) realloc(*dest_adr, *size);
+		}
+	}
+	(*dest_adr)[num_of_sym] = '\0';
+	
+	return num_of_sym;
 }
