@@ -8,92 +8,116 @@ void sort_strings (char * mass_of_pointer_to_strings[], int counter);
 const int STANDART_SIZE = 10;
 
 int main (void)
-{
-	char ** mass = nullptr;
-	int n = 0;
-	int size_of_line = 0; //чтобы getline выделил место
-	int num_of_strings = 0;
-	
-	int ch = 0; // переменная нужна только для проверки места, на котором сейчас стоит указатель в файле.
-	
-	FILE * ptr_file = fopen ("Hamlet.txt", "r"); //открыли файл только для чтения
+{	
+	FILE * ptr_file = fopen ("Hamlet.txt", "rb"); //открыли файл только для чтения
 	
 	printf ("ptr_file = %p\n", ptr_file);
-	
-	while (feof(ptr_file) == 0)
+		
+	if (ptr_file == NULL)
 	{
-		if ((ch = fgetc(ptr_file)) == '\n')
-			n++;
-	} //после выхода из цикла указатель стоит на конце файла
-	n++;
-	printf("n = %d\n", n);
-	
-	if (n == 0)
-	{
-		printf("Reading file error.\n");
+		printf("Reading file \"Hamlet.txt\" error.\n");
 		return -1;
 	}
 	
 	printf("File reading ACCESS\n");
-	printf ("Position in file before fseek = %p\n", ch);
 	
-	mass = (char **) calloc(n, sizeof (char *));  //переменная типа указателя на указатели, которые лежат в массиве, каждая ячеййка которого имеет размер типа указтеля на char
+	fseek (ptr_file, 0, SEEK_END);
+	long int size_of_file_in_bytes = ftell (ptr_file); 
+	fseek (ptr_file, 0, SEEK_SET); // установили в начало файла указатель.
+	//printf("size_of_file_in_bytes = %ld\n", size_of_file_in_bytes);
+	long int number_of_elements = size_of_file_in_bytes / (sizeof(char));
+	char * buffer = (char *) calloc (number_of_elements, sizeof(char));
 	
-	fseek (ptr_file, 0L, SEEK_SET); //передвинули указатель в начало файла
-	
-	while (feof(ptr_file) == 0)  //нужно установить указатели на строки 
+	if (buffer == NULL)
 	{
-		printf("in ptr to string\n");
-		printf("size = %d\n", size_of_line);
-		my_getline (mass, &size_of_line, ptr_file);
-		printf("size = %d\n", size_of_line);
-		num_of_strings++;
-		*mass++;  // передвигаем указатель в массиве указателей на строки
+		printf("It is inpossible to allocate memory for a file.\n");
+		exit(1);
 	}
 	
-	sort_strings (mass, num_of_strings);
+	size_t number_of_successfully_read_elements_fread = fread (buffer, sizeof(char), number_of_elements, ptr_file);
 	
-	puts ("\nSort in alphabetical order:\n");
-	while (num_of_strings > 0)
+	if (number_of_successfully_read_elements_fread != number_of_elements)
 	{
-		//printf("meow\n");
-		puts(*mass);
-		*mass++;
-		num_of_strings--;
+		printf("Reading error.\n");
+		exit(2);
 	}
 	
-	return 0;	
-}
-
-size_t my_getline (char** dest_adr, int * size, FILE * stream)
-{
-	if (*dest_adr == NULL)
+	printf("ptr_buffer before n -> 0 = %p\n", buffer);
+	
+	//puts (buffer); // success
+	
+	long int number_of_strings = 1;
+	
+	//printf("&buffer[0] = %p\n", &(buffer[0]));
+	//char * begging_of_buffer = &(buffer[0]);
+	printf("number_of_successfully_read_elements_fread = %d\n", number_of_successfully_read_elements_fread);
+	
+	for (int i = 0; i < number_of_successfully_read_elements_fread; i++)
 	{
-		printf("*dest_adr = %p\n", *dest_adr);
-		*dest_adr = (char *) calloc (STANDART_SIZE, sizeof(char));
-		printf("*dest_adr = %p\n", *dest_adr); //вставить выше
-	}
-	if (*dest_adr == NULL) //убрал это: && **dest_adr == EOF
-	{
-		printf("Error: *dest_adr == NULL\n");
-		return (size_t)(-1);
-	}
-	int num_of_sym = 0;
-	printf("(*dest_adr)[0] = %d", (*dest_adr[3]));
-	printf("size = %d", *size);
-	while (((*dest_adr)[num_of_sym] = fgetc(stream)) != EOF && (*dest_adr)[num_of_sym] != '\n')
-	{
-		num_of_sym++; 
-		//printf("num_of_sym = %d\n", num_of_sym);
-		if (num_of_sym >= *size)
+		if (buffer[i] == '\n')
 		{
-			*size *= 2;
-			*dest_adr = (char*) realloc(*dest_adr, *size);
+			buffer[i] = '\0';
+			//printf("&(buffer[i]) = 0\n", &(buffer[i]));
+//			printf("Adress of buffer[i] == 0 = %p\n", &(buffer[i]));
+//			printf("buffer[i+1] = %c\n", buffer[i+1]);
+			number_of_strings++;
+		}	
+	}
+	
+	printf("number_of_strings = %d\n", number_of_strings);
+	//printf("buffer[i-1] = %c\n", buffer[0]); // находимся в конце буфера
+	
+	char ** mass = (char **) calloc (number_of_strings, sizeof(char *));
+//	printf("*mass = %p\n", *mass);
+	*mass = &(buffer[0]);
+//	printf("&(buffer[0]) = %p\n", &(buffer[0]));
+//	printf("*mass = %p\n", *mass);
+	mass++;
+	
+//	printf("*mass = %p\n", *mass);
+//	
+//	mass++;
+//	*mass = &(buffer[1]);
+//	printf("&(buffer[1]) = %p\n", &(buffer[1]));
+//	printf("*mass = %p\n", *mass);
+	
+	
+	for (int i = 0, j = 1; i < number_of_successfully_read_elements_fread, j < number_of_strings; i++)
+	{
+		if (buffer[i] == '\0')
+		{
+			*mass = &(buffer[i+1]);
+			//printf("%s\n", *mass);
+			mass++;
+			j++;
 		}
 	}
-	(*dest_adr)[num_of_sym] = '\0';
+	mass = mass - number_of_strings;
+	puts(*mass);
 	
-	return num_of_sym;
+//	printf("ptr_buffer after n -> 0 = %p\n", buffer);
+//	
+//	buffer++;
+//	printf("ptr_buffer after n -> 0 = %p\n", buffer);	
+//	
+//	printf("number_of_strings = %ld\n", number_of_strings);
+	
+	
+	sort_strings (mass, number_of_strings);
+	printf ("lol\n");
+	for (int i = 0; i < number_of_strings; i++)
+	{
+		puts(*mass);
+		mass++;
+	}
+	
+	//puts (buffer);
+		
+	//completion of work
+	fclose (ptr_file);
+	free (buffer);
+	
+	return 0;	
 }
 
 void sort_strings (char * mass_of_pointer_to_strings[], int counter)
