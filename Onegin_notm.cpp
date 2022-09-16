@@ -1,50 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "required_file.h"
 
-size_t my_getline (char** dest_adr, int * size, FILE * stream);
-void sort_strings (char * mass_of_pointer_to_strings[], int counter);
-void print_array_in_file (char ** array, int number_of_strings, FILE * ptr_output_file);
-int read_file (char ** buffer_1, FILE ** ptr_output_file_1);
-
-const int STANDART_SIZE = 10;
-// header file 
 int main (void)
 {	
 	char * buffer = nullptr;
 	FILE * ptr_output_file = nullptr;
+	
 	int number_of_successfully_read_elements_fread = read_file (&buffer, &ptr_output_file);
+	int number_of_strings = split_into_lines (&buffer, number_of_successfully_read_elements_fread);
 	
-	printf("buffer = %p after function\n", buffer);
-	printf("ptr_output_file = %p after function\n", ptr_output_file);
-	
-	// end of reading function
-	
-	long int number_of_strings = 1;
-	
-	for (int i = 0; i < number_of_successfully_read_elements_fread; i++)
-	{
-		if (buffer[i] == '\n')
-		{
-			buffer[i] = '\0';
-			number_of_strings++;
-		}	
-	}
-	//split into lines
 	char ** mass = (char **) calloc (number_of_strings, sizeof(char *));
-	*mass = &(buffer[0]);
-	mass++;	
 	
-	for (int i = 0, j = 1; i < number_of_successfully_read_elements_fread, j < number_of_strings; i++)
-	{
-		if (buffer[i] == '\0')
-		{
-			*mass = &(buffer[i+1]);
-			mass++;
-			j++;
-		}
-	}
-	mass = mass - number_of_strings;	
+	mass = sorting_array (mass, number_of_successfully_read_elements_fread, number_of_strings, &buffer);
 	
 	sort_strings (mass, number_of_strings);
 	
@@ -116,4 +82,37 @@ int read_file (char ** buffer_1, FILE ** ptr_output_file_1)
 	}
 	
 	return number_of_successfully_read_elements_fread;
+}
+
+int split_into_lines (char ** buffer_1, int number_of_successfully_read_elements_fread)
+{
+	long int number_of_strings = 1;
+	
+	for (int i = 0; i < number_of_successfully_read_elements_fread; i++)
+	{
+		if ((*buffer_1)[i] == '\n')
+		{
+			(*buffer_1)[i] = '\0';
+			number_of_strings++;
+		}	
+	}
+	
+	return number_of_strings;
+}
+
+char ** sorting_array (char ** mass_1, int number_of_successfully_read_elements_fread, int number_of_strings, char ** buffer_1)
+{
+	*mass_1 = &((*buffer_1)[0]);
+	mass_1++;	
+	
+	for (int i = 0, j = 1; i < number_of_successfully_read_elements_fread, j < number_of_strings; i++)
+	{
+		if ((*buffer_1)[i] == '\0')
+		{
+			*mass_1 = &((*buffer_1)[i+1]);
+			mass_1++;
+			j++;
+		}
+	}
+	return mass_1 - number_of_strings;
 }
