@@ -4,122 +4,52 @@
 
 size_t my_getline (char** dest_adr, int * size, FILE * stream);
 void sort_strings (char * mass_of_pointer_to_strings[], int counter);
+void print_array_in_file (char ** array, int number_of_strings, FILE * ptr_output_file);
+int read_file (char ** buffer_1, FILE ** ptr_output_file_1);
 
 const int STANDART_SIZE = 10;
-
+// header file 
 int main (void)
 {	
-	FILE * ptr_file = fopen ("Hamlet.txt", "rb"); //открыли файл только для чтения
-	FILE * ptr_output_file = fopen ("Output.txt", "wb");
+	char * buffer = nullptr;
+	FILE * ptr_output_file = nullptr;
+	int number_of_successfully_read_elements_fread = read_file (&buffer, &ptr_output_file);
 	
-	printf ("ptr_file = %p\n", ptr_file);
-		
-	if (ptr_file == NULL)
-	{
-		printf("Reading file \"Hamlet.txt\" error.\n");
-		return -1;
-	}
+	printf("buffer = %p after function\n", buffer);
+	printf("ptr_output_file = %p after function\n", buffer);
 	
-	printf("File reading ACCESS\n");
-	
-	fseek (ptr_file, 0, SEEK_END);
-	long int size_of_file_in_bytes = ftell (ptr_file); 
-	fseek (ptr_file, 0, SEEK_SET); // установили в начало файла указатель.
-	//printf("size_of_file_in_bytes = %ld\n", size_of_file_in_bytes);
-	long int number_of_elements = size_of_file_in_bytes / (sizeof(char));
-	
-	char * buffer = (char *) calloc (number_of_elements + 1, sizeof(char));
-	
-	if (buffer == NULL)
-	{
-		printf("It is inpossible to allocate memory for a file.\n");
-		exit(1);
-	}
-	
-	size_t number_of_successfully_read_elements_fread = fread (buffer, sizeof(char), number_of_elements, ptr_file);
-	buffer[number_of_elements] = '\0'; // явно заканчиваем массив
-	
-	if (number_of_successfully_read_elements_fread != number_of_elements)
-	{
-		printf("Reading error.\n");
-		exit(2);
-	}
-	
-	printf("ptr_buffer before n -> 0 = %p\n", buffer);
-	
-	//puts (buffer); // success
+	// end of reading function
 	
 	long int number_of_strings = 1;
-	
-	//printf("&buffer[0] = %p\n", &(buffer[0]));
-	//char * begging_of_buffer = &(buffer[0]);
-	printf("number_of_successfully_read_elements_fread = %d\n", number_of_successfully_read_elements_fread);
 	
 	for (int i = 0; i < number_of_successfully_read_elements_fread; i++)
 	{
 		if (buffer[i] == '\n')
 		{
 			buffer[i] = '\0';
-			//printf("&(buffer[i]) = 0\n", &(buffer[i]));
-//			printf("Adress of buffer[i] == 0 = %p\n", &(buffer[i]));
-//			printf("buffer[i+1] = %c\n", buffer[i+1]);
 			number_of_strings++;
 		}	
 	}
-	
-	printf("number_of_strings = %d\n", number_of_strings);
-	//printf("buffer[i-1] = %c\n", buffer[0]); // находимся в конце буфера
-	
+	//split into lines
 	char ** mass = (char **) calloc (number_of_strings, sizeof(char *));
-//	printf("*mass = %p\n", *mass);
 	*mass = &(buffer[0]);
-//	printf("&(buffer[0]) = %p\n", &(buffer[0]));
-//	printf("*mass = %p\n", *mass);
-	mass++;
-	
-//	printf("*mass = %p\n", *mass);
-//	
-//	mass++;
-//	*mass = &(buffer[1]);
-//	printf("&(buffer[1]) = %p\n", &(buffer[1]));
-//	printf("*mass = %p\n", *mass);
-	
+	mass++;	
 	
 	for (int i = 0, j = 1; i < number_of_successfully_read_elements_fread, j < number_of_strings; i++)
 	{
 		if (buffer[i] == '\0')
 		{
 			*mass = &(buffer[i+1]);
-			//printf("%s\n", *mass);
 			mass++;
 			j++;
 		}
 	}
-	mass = mass - number_of_strings;
-//	puts(*mass);
-	
-//	printf("ptr_buffer after n -> 0 = %p\n", buffer);
-//	
-//	buffer++;
-//	printf("ptr_buffer after n -> 0 = %p\n", buffer);	
-//	
-//	printf("number_of_strings = %ld\n", number_of_strings);
-	
+	mass = mass - number_of_strings;	
 	
 	sort_strings (mass, number_of_strings);
-	printf ("Sorting was successful.\n");
 	
-	for (int i = 0; i < number_of_strings; i++)
-	{
-		puts(*mass);
-		mass++;
-	}
-	
-	//puts (buffer);
-	
-	
-	//completion of work
-	fclose (ptr_file);
+	print_array_in_file (mass, number_of_strings, ptr_output_file);
+
 	free (buffer);
 	
 	return 0;	
@@ -136,4 +66,54 @@ void sort_strings (char * mass_of_pointer_to_strings[], int counter)
 				mass_of_pointer_to_strings[i] = mass_of_pointer_to_strings[j];
 				mass_of_pointer_to_strings[j] = temp;
 			}
+}
+
+void print_array_in_file (char ** array, int number_of_strings, FILE * ptr_output_file)
+{
+	for (int i = 0; i < number_of_strings; i++)
+	{
+		fputs (*array, ptr_output_file);
+		array++;
+	}
+}
+
+int read_file (char ** buffer_1, FILE ** ptr_output_file_1)
+{
+	FILE * ptr_file = fopen ("Hamlet.txt", "rb");
+	*ptr_output_file_1 = fopen ("Output.txt", "wb");
+		
+	if (ptr_file == NULL)
+	{
+		printf("Reading file \"Hamlet.txt\" error.\n");
+		return -1;
+	}
+	if (*ptr_output_file_1 == NULL)
+	{
+		printf("Reading file \"Output.txt\" error.\n");
+		return -3;
+	}
+	
+	fseek (ptr_file, 0, SEEK_END);
+	long int size_of_file_in_bytes = ftell (ptr_file); 
+	fseek (ptr_file, 0, SEEK_SET);
+	long int number_of_elements = size_of_file_in_bytes / (sizeof(char));
+	
+	*buffer_1 = (char *) calloc (number_of_elements + 1, sizeof(char));
+	
+	if (*buffer_1 == NULL)
+	{
+		printf("It is impossible to allocate memory for a file.\n");
+		exit(1);
+	}
+	
+	size_t number_of_successfully_read_elements_fread = fread (*buffer_1, sizeof(char), number_of_elements, ptr_file);
+	(*buffer_1)[number_of_elements] = '\0';
+	
+	if (number_of_successfully_read_elements_fread != number_of_elements)
+	{
+		printf("Reading error.\n");
+		exit(2);
+	}
+	
+	return number_of_successfully_read_elements_fread;
 }
