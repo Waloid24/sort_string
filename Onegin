@@ -16,7 +16,7 @@ int main (void)
 	int number_of_successfully_read_elements_fread = read_file (&buffer, &ptr_output_file);
 	
 	printf("buffer = %p after function\n", buffer);
-	printf("ptr_output_file = %p after function\n", buffer);
+	printf("ptr_output_file = %p after function\n", ptr_output_file);
 	
 	// end of reading function
 	
