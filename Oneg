@@ -1,0 +1,103 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include<sys/stat.h>
+
+int reading_file (char ** buf_elements_1, FILE ** file_output_1, const char * arg_console_1, const char * arg_console_2);
+int correct_buf (char * buf_elements, int n_elements);
+void arr_strings (char ** mass, char * buf, int n_elem_1);
+
+int main (int argc, char * argv[])
+{
+	FILE * file_output = nullptr;
+	char * buf_elements = nullptr;
+	int n_elem = reading_file (&buf_elements, &file_output, argv[1], argv[2]);
+	
+	printf("after reading_file ptr buf_elements = %p\n", buf_elements);
+	printf("after reading_file ptr file_output = %p\n", file_output);
+	printf("after reading_file ptr buf_elements = %p\n", buf_elements);
+	printf("buf_elements[0] = %c\n", buf_elements[0]);
+	
+	int n_strings = correct_buf (buf_elements, n_elem);
+	
+	printf("after correct_buf n_strings = %d\n", n_strings);
+	
+	char ** arr_ptr_strings = (char **) calloc(n_strings, sizeof (char *));
+	arr_strings (arr_ptr_strings, buf_elements, n_elem);
+	
+	//проверим, что лежит в массиве arr_ptr_strings
+	for (int i = 0; i < n_strings; i++)
+	{
+		puts(*arr_ptr_strings);
+		arr_ptr_strings;
+	}
+}
+ 
+int reading_file (char ** buf_elements_1, FILE ** file_output_1, const char * arg_console_1, const char * arg_console_2)
+{
+	struct stat file_info;
+	FILE * file_input = fopen (arg_console_1, "rb");
+	if (file_input == NULL)
+	{
+		fprintf(stderr, "Error: unable to open argv file[1]\n");
+		return -1;
+	}
+	
+	*file_output_1 = fopen (arg_console_2, "wb");
+	if (file_output_1 == NULL)
+	{
+		fprintf(stderr, "Error: unable to open argv file[2]\n");
+		return -2;
+	}
+	
+	stat (arg_console_1, &file_info);
+	int n_elem = file_info.st_size;
+	printf("n_elem = %d\n", n_elem);
+	
+	*buf_elements_1 = (char *) calloc (n_elem + 1, sizeof(char));
+	if (*buf_elements_1 == NULL)
+	{
+		fprintf (stderr, "Error in allocating memory for saving.\n");
+		return -2;
+	}	
+	(*buf_elements_1)[n_elem] = '\0';
+	
+	fread (*buf_elements_1, 1, n_elem, file_input);
+	
+	return n_elem;
+}
+
+int correct_buf (char * buf_elements_2, int n_elements)
+{
+	int n_strings = 0;
+	
+	printf("buf_elements_2 = %p\n", buf_elements_2);
+	
+	for (int i = 0; i < n_elements; i++)
+	{
+		if (buf_elements_2[i] == '\n')
+		{
+			//printf ("buf_elements_2[i] = %d\n", &(buf_elements_2[i]) - buf_elements_2);
+			buf_elements_2[i] = '\0';
+			n_strings++;
+		}
+		if (buf_elements_2[i] == '\r')
+			buf_elements_2[i] = '\0';
+	}
+	
+	return n_strings+1;
+}
+
+void arr_strings (char ** mass, char * buf, int n_elem_1) // int n_strings_1 - кажется, что достаточно проверки конца buf
+{
+	*mass = buf;
+	mass++;
+	for (int i = 0; i < n_elem_1 && *buf != EOF; i++)
+	{
+		if (*buf == '\0')
+		{
+			*mass = buf + 1;
+			mass++;
+		}
+		buf++;
+	}
+}
