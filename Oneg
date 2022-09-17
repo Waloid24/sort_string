@@ -5,6 +5,7 @@
 int reading_file (char ** buf_elements_1, FILE ** file_output_1, const char * arg_console_1, const char * arg_console_2);
 int correct_buf (char * buf_elements, int n_elements);
 void arr_strings (char ** mass, char * buf, int n_elem_1);
+void print_array_in_file (char ** array_strings_for_sort, int n_string, FILE * file_output);
 
 int main (int argc, char * argv[])
 {
@@ -25,11 +26,14 @@ int main (int argc, char * argv[])
 	arr_strings (arr_ptr_strings, buf_elements, n_elem);
 	
 	//проверим, что лежит в массиве arr_ptr_strings
-	for (int i = 0; i < n_strings; i++)
-	{
-		puts(*arr_ptr_strings);
-		arr_ptr_strings;
-	}
+//	for (int i = 0; i < n_strings; i++)
+//	{
+//		puts(*arr_ptr_strings);
+//		arr_ptr_strings++;
+//	}
+	print_array_in_file (arr_ptr_strings, n_strings, file_output);
+	
+	return 0;
 }
  
 int reading_file (char ** buf_elements_1, FILE ** file_output_1, const char * arg_console_1, const char * arg_console_2)
@@ -74,14 +78,14 @@ int correct_buf (char * buf_elements_2, int n_elements)
 	
 	for (int i = 0; i < n_elements; i++)
 	{
+//		if (buf_elements_2[i] == '\r')
+//			buf_elements_2[i] = '\0';
 		if (buf_elements_2[i] == '\n')
 		{
 			//printf ("buf_elements_2[i] = %d\n", &(buf_elements_2[i]) - buf_elements_2);
 			buf_elements_2[i] = '\0';
 			n_strings++;
 		}
-		if (buf_elements_2[i] == '\r')
-			buf_elements_2[i] = '\0';
 	}
 	
 	return n_strings+1;
@@ -90,14 +94,41 @@ int correct_buf (char * buf_elements_2, int n_elements)
 void arr_strings (char ** mass, char * buf, int n_elem_1) // int n_strings_1 - кажется, что достаточно проверки конца buf
 {
 	*mass = buf;
+	printf("*mass = buf = %s\n", *mass);
 	mass++;
 	for (int i = 0; i < n_elem_1 && *buf != EOF; i++)
 	{
 		if (*buf == '\0')
 		{
 			*mass = buf + 1;
+			printf("*mass = buf = %s\n", *mass);
 			mass++;
 		}
 		buf++;
+	}
+}
+
+//int alphabetcomp ((char *) str1, (char *) str2)
+//{
+//	int n = 0;
+//	if (strcmp(str1, str2) > 0)
+//	{
+//		char * temp = nullptr;
+//		temp = str1; 
+//		str1 = str2;
+//		str2 = temp;
+//		
+//		return 0;
+//	}
+//	else 
+//	
+//}
+
+void print_array_in_file (char ** array_strings_for_sort, int n_string, FILE * file_output)
+{
+	for (int i = 0; i < n_string; i++)
+	{
+		fputs(*array_strings_for_sort, file_output);
+		array_strings_for_sort++;
 	}
 }
