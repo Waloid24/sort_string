@@ -42,18 +42,26 @@ int reading_file (char ** buf_elements_1, FILE ** file_output_1, const char * ar
 	
 	return n_elem;
 }
+// две функции: одна читает файл с текстом и возвращает указатель на буфер и закрывает файл, вторая открывает файл для вывода и возвращает указатель на него
 
-int correct_buf (char * buf_elements_2, int n_elements)
+int correct_buf (char * buf, int n_elements) 
 {
 	int n_strings = 0;
 	
 	for (int i = 0; i < n_elements; i++)
 	{
-		if (buf_elements_2[i] == '\n')
+		if (buf[i] == '\n')
 		{
-			buf_elements_2[i] = '\0';
+			buf[i] = '\0';
 			n_strings++;
 		}
 	}
-	return n_strings+1;
+	return n_strings + 1;
 }
+
+struct str_ing * array_space (int n_strings, size_t size)
+	{
+		struct str_ing * array = (struct str_ing *)calloc (n_strings, size);
+		MY_ASSERT (array == NULL, "Memory allocation error\n");
+		return array;
+	}

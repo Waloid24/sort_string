@@ -1,18 +1,38 @@
-//#pragma once
-
 #ifndef MY_ASSERT_H
 #define MY_ASSERT_H
 
 #include <stdio.h>
-#include <math.h>
-
-#include "print_in_file.h"
-#include "work_with_qsort.h"
-#include "work_with_src_file.h"
 
 #ifdef MY_ASSERT
 	#undef MY_ASSERT
 #endif
+
+////do while (0) обернуть if в это. Ограничивает область видимости перемнной. Использовать во всех больших DEFINE
+//#if 0
+//#define ASSIGN int x = 5
+//
+//int main () {
+//
+//	ASSIGN; // int x = 5;
+//	do {
+//		int x = 5;
+//	} while (0);
+//	int x = 0;
+//
+//}
+//
+//#define MY_DEF(cond) \
+//	do {
+//	
+//		if (cond) printf ("Hallo\n");
+//		int i = 0;
+//		for (; i <10; ++i) ...
+//	
+//	} while (0)
+//
+//MY_DEF(true);
+//#endif
+
 
 #ifndef DEBUG_SOFT
 	#ifndef NDEBUG
