@@ -1,6 +1,7 @@
 #ifndef PRINT_IN_FILE_H
 #define PRINT_IN_FILE_H
 #include <stdio.h>
+#include <stdlib.h>
 
 struct str_ing {
 	char * p = nullptr;

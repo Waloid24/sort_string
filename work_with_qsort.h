@@ -2,9 +2,7 @@
 #define WORK_WITH_QSORT_H
 #include <ctype.h>
 #include <string.h>
-
-
-
+#include <stdlib.h>
 
 int  alphabetcomp (const void * str1, const void * str2);
 void swap (const void * str1, const void * str2);

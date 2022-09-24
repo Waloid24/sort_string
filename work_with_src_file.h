@@ -2,6 +2,7 @@
 #define WORK_WITH_SRC_FILE_H
 #include <stdio.h>
 #include "my_assert.h"
+#include <stdlib.h>
 #include <cstring>
 #include <sys/stat.h>
 #define DEBUG_SOFT

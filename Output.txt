@@ -4,32 +4,53 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 SORTING STRING FROM LEFT TO RIGHT
 
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-A pair of star-cross'd lovers take their life;And the continuance of their parents' rage,Doth with their death bury their parents' strife.From ancient grudge break to new mutiny,From forth the fatal loins of these two foesIn fair Verona, where we lay our scene,Is now the two hours' traffic of our stage;The fearful passage of their death-mark'd love,The which if you with patient ears attend,Two households, both alike in dignity,What here shall miss, our toil shall strive to mend.Where civil blood makes civil hands unclean.Which, but their children's end, naught could remove,Whose misadventur'd piteous overthrows
+						FILE * file_output  = nullptr;	FILE * output_sort_end = fopen (argv[2], "ab+");	char * buf_elements = nullptr;	filling_struct (ptr, buf_elements, n_elem);	int n_elem    = reading_file (&buf_elements, &file_output, argv[1], argv[2]);	int n_strings = correct_buf (buf_elements, n_elem);	print_array_in_file (ptr, n_strings, file_output);	print_array_in_file (ptr, n_strings, output_sort_end);	print_buf_in_file (buf_elements, n_strings, output_sort_end);	print_left_right (file_output);	print_right_left (file_output);	qsort (array, n_strings, sizeof(struct str_ing), alphabetcomp);	qsort (array, n_strings, sizeof(struct str_ing), sort_from_end);	return 0;	struct str_ing * array = (struct str_ing *)calloc (n_strings, sizeof(struct str_ing));	struct str_ing * ptr   = array;#include "print_in_file.h"#include "work_with_qsort.h"#include "work_with_src_file.h"//#include <stdlib.h>int main (int argc, char * argv[]){}
 
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 SORTING STRING FROM RIGHT TO LEFT
 
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-What here shall miss, our toil shall strive to mend.The which if you with patient ears attend,A pair of star-cross'd lovers take their life;Doth with their death bury their parents' strife.And the continuance of their parents' rage,Is now the two hours' traffic of our stage;In fair Verona, where we lay our scene,The fearful passage of their death-mark'd love,Which, but their children's end, naught could remove,Where civil blood makes civil hands unclean.From forth the fatal loins of these two foesWhose misadventur'd piteous overthrowsFrom ancient grudge break to new mutiny,Two households, both alike in dignity,
+					{	FILE * output_sort_end = fopen (argv[2], "ab+");//#include <stdlib.h>#include "work_with_src_file.h"	struct str_ing * ptr   = array;#include "print_in_file.h"	qsort (array, n_strings, sizeof(struct str_ing), sort_from_end);	print_array_in_file (ptr, n_strings, output_sort_end);	print_buf_in_file (buf_elements, n_strings, output_sort_end);	struct str_ing * array = (struct str_ing *)calloc (n_strings, sizeof(struct str_ing));	int n_strings = correct_buf (buf_elements, n_elem);	filling_struct (ptr, buf_elements, n_elem);	return 0;	qsort (array, n_strings, sizeof(struct str_ing), alphabetcomp);#include "work_with_qsort.h"	char * buf_elements = nullptr;	FILE * file_output  = nullptr;	print_array_in_file (ptr, n_strings, file_output);	print_right_left (file_output);	print_left_right (file_output);int main (int argc, char * argv[])	int n_elem    = reading_file (&buf_elements, &file_output, argv[1], argv[2]);}
 
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 SOURCE TEXT
 
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-Two households, both alike in dignity,
-In fair Verona, where we lay our scene,
-From ancient grudge break to new mutiny,
-Where civil blood makes civil hands unclean.
-From forth the fatal loins of these two foes
-A pair of star-cross'd lovers take their life;
-Whose misadventur'd piteous overthrows
-Doth with their death bury their parents' strife.
-The fearful passage of their death-mark'd love,
-And the continuance of their parents' rage,
-Which, but their children's end, naught could remove,
-Is now the two hours' traffic of our stage;
-The which if you with patient ears attend,
-What here shall miss, our toil shall strive to mend.
+//#include <stdlib.h>
+#include "print_in_file.h"
+#include "work_with_qsort.h"
+#include "work_with_src_file.h"
 
+int main (int argc, char * argv[])
+{
+	FILE * file_output  = nullptr;
+	char * buf_elements = nullptr;
+	int n_elem    = reading_file (&buf_elements, &file_output, argv[1], argv[2]);
+	int n_strings = correct_buf (buf_elements, n_elem);
+	struct str_ing * array = (struct str_ing *)calloc (n_strings, sizeof(struct str_ing));
+	struct str_ing * ptr   = array;
+	
+	filling_struct (ptr, buf_elements, n_elem);
+	
+	print_left_right (file_output);
+	qsort (array, n_strings, sizeof(struct str_ing), alphabetcomp);
+	print_array_in_file (ptr, n_strings, file_output);
+	
+	FILE * output_sort_end = fopen (argv[2], "ab+");
+	print_right_left (file_output);
+	qsort (array, n_strings, sizeof(struct str_ing), sort_from_end);
+	print_array_in_file (ptr, n_strings, output_sort_end);
+	
+	print_buf_in_file (buf_elements, n_strings, output_sort_end);
+	
+	return 0;
+}
+
+
+
+
+
+
+>vùÔFZ
