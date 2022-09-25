@@ -1,56 +1,68 @@
 
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-SORTING STRING FROM LEFT TO RIGHT
+ALPHABETICAL SORTING
 
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-						FILE * file_output  = nullptr;	FILE * output_sort_end = fopen (argv[2], "ab+");	char * buf_elements = nullptr;	filling_struct (ptr, buf_elements, n_elem);	int n_elem    = reading_file (&buf_elements, &file_output, argv[1], argv[2]);	int n_strings = correct_buf (buf_elements, n_elem);	print_array_in_file (ptr, n_strings, file_output);	print_array_in_file (ptr, n_strings, output_sort_end);	print_buf_in_file (buf_elements, n_strings, output_sort_end);	print_left_right (file_output);	print_right_left (file_output);	qsort (array, n_strings, sizeof(struct str_ing), alphabetcomp);	qsort (array, n_strings, sizeof(struct str_ing), sort_from_end);	return 0;	struct str_ing * array = (struct str_ing *)calloc (n_strings, sizeof(struct str_ing));	struct str_ing * ptr   = array;#include "print_in_file.h"#include "work_with_qsort.h"#include "work_with_src_file.h"//#include <stdlib.h>int main (int argc, char * argv[]){}
+Again ye come, ye hovering Forms! I find ye,
+And, like an old and half-extinct tradition,
+And names the Good, whose cheating fortune tore them
+And sway me from your misty, shadowy zone!
+As early to my clouded sight ye shone!
+First Love returns, with Friendship in his train.
+From happy hours, and left me to deplore them.
+From magic airs that round your march awaken.
+Life tracks his devious, labyrinthine chain,
+My bosom thrills, with youthful passion shaken,
+Of joyous days ye bring the blissful vision;
+Renewed is Pain: with mournful repetition
+Shall I attempt, this once, to seize and bind ye?
+Still o'er my heart is that illusion thrown?
+The dear, familiar phantoms rise again,
+Ye crowd more near! Then, be the reign assigned ye,
+
 
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-SORTING STRING FROM RIGHT TO LEFT
+RHYMING LINES
 
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-					{	FILE * output_sort_end = fopen (argv[2], "ab+");//#include <stdlib.h>#include "work_with_src_file.h"	struct str_ing * ptr   = array;#include "print_in_file.h"	qsort (array, n_strings, sizeof(struct str_ing), sort_from_end);	print_array_in_file (ptr, n_strings, output_sort_end);	print_buf_in_file (buf_elements, n_strings, output_sort_end);	struct str_ing * array = (struct str_ing *)calloc (n_strings, sizeof(struct str_ing));	int n_strings = correct_buf (buf_elements, n_elem);	filling_struct (ptr, buf_elements, n_elem);	return 0;	qsort (array, n_strings, sizeof(struct str_ing), alphabetcomp);#include "work_with_qsort.h"	char * buf_elements = nullptr;	FILE * file_output  = nullptr;	print_array_in_file (ptr, n_strings, file_output);	print_right_left (file_output);	print_left_right (file_output);int main (int argc, char * argv[])	int n_elem    = reading_file (&buf_elements, &file_output, argv[1], argv[2]);}
+As early to my clouded sight ye shone!
+And sway me from your misty, shadowy zone!
+Ye crowd more near! Then, be the reign assigned ye,
+Shall I attempt, this once, to seize and bind ye?
+Again ye come, ye hovering Forms! I find ye,
+From happy hours, and left me to deplore them.
+And names the Good, whose cheating fortune tore them
+My bosom thrills, with youthful passion shaken,
+From magic airs that round your march awaken.
+The dear, familiar phantoms rise again,
+Life tracks his devious, labyrinthine chain,
+First Love returns, with Friendship in his train.
+Of joyous days ye bring the blissful vision;
+And, like an old and half-extinct tradition,
+Renewed is Pain: with mournful repetition
+Still o'er my heart is that illusion thrown?
+
 
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 SOURCE TEXT
 
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-//#include <stdlib.h>
-#include "print_in_file.h"
-#include "work_with_qsort.h"
-#include "work_with_src_file.h"
-
-int main (int argc, char * argv[])
-{
-	FILE * file_output  = nullptr;
-	char * buf_elements = nullptr;
-	int n_elem    = reading_file (&buf_elements, &file_output, argv[1], argv[2]);
-	int n_strings = correct_buf (buf_elements, n_elem);
-	struct str_ing * array = (struct str_ing *)calloc (n_strings, sizeof(struct str_ing));
-	struct str_ing * ptr   = array;
-	
-	filling_struct (ptr, buf_elements, n_elem);
-	
-	print_left_right (file_output);
-	qsort (array, n_strings, sizeof(struct str_ing), alphabetcomp);
-	print_array_in_file (ptr, n_strings, file_output);
-	
-	FILE * output_sort_end = fopen (argv[2], "ab+");
-	print_right_left (file_output);
-	qsort (array, n_strings, sizeof(struct str_ing), sort_from_end);
-	print_array_in_file (ptr, n_strings, output_sort_end);
-	
-	print_buf_in_file (buf_elements, n_strings, output_sort_end);
-	
-	return 0;
-}
-
-
-
-
-
-
->vùÔFZ
+Again ye come, ye hovering Forms! I find ye,
+As early to my clouded sight ye shone!
+Shall I attempt, this once, to seize and bind ye?
+Still o'er my heart is that illusion thrown?
+Ye crowd more near! Then, be the reign assigned ye,
+And sway me from your misty, shadowy zone!
+My bosom thrills, with youthful passion shaken,
+From magic airs that round your march awaken.
+Of joyous days ye bring the blissful vision;
+The dear, familiar phantoms rise again,
+And, like an old and half-extinct tradition,
+First Love returns, with Friendship in his train.
+Renewed is Pain: with mournful repetition
+Life tracks his devious, labyrinthine chain,
+And names the Good, whose cheating fortune tore them
+From happy hours, and left me to deplore them.

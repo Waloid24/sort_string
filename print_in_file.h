@@ -13,5 +13,7 @@ void print_array_in_file (struct str_ing * ptr_1, int n_string, FILE * output);
 void print_rhyming_lines (FILE * output);
 void print_alphabetical_sorting (FILE * output);
 void print_src_text   (FILE * output);
+void correct_buf_for_fwrite (char * buf, int n_elem);
+
 
 #endif
