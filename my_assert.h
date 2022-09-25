@@ -7,32 +7,6 @@
 	#undef MY_ASSERT
 #endif
 
-//do while (0) обернуть if в это. Ограничивает область видимости перемнной. Использовать во всех больших DEFINE
-#if 0
-#define ASSIGN int x = 5
-
-int main () {
-
-	ASSIGN; // int x = 5;
-	do {
-		int x = 5;
-	} while (0);
-	int x = 0;
-
-}
-
-#define MY_DEF(cond) \
-	do {
-	
-		if (cond) printf ("Hallo\n");
-		int i = 0;
-		for (; i <10; ++i) ...
-	
-	} while (0)
-
-MY_DEF(true);
-#endif
-
 #ifndef DEBUG_SOFT
 	#ifndef NDEBUG
 		#define MY_ASSERT(instruction, message) \
