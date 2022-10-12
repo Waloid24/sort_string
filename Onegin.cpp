@@ -17,7 +17,7 @@ int main (int argc, char * argv[])
 	filling_struct (array_strings, buf, n_elem);
 	
 	print_alphabetical_sorting (output);
-	qsort (array_strings, n_strings, sizeof(struct str_ing), alphabetcomp);
+	my_sort (array_strings, n_strings, sizeof(struct str_ing), alphabetcomp);
 	print_array_in_file (array_strings, n_strings, output);
 	
 	FILE * output_sort_end = fopen (argv[2], "ab+");
