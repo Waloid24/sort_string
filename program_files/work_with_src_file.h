@@ -6,11 +6,10 @@
 #include <stdlib.h>
 #include <cstring>
 #include <sys/stat.h>
-#define  DEBUG_SOFT
 
-void filling_struct (struct str_ing * string_arr, char * buf, int n_elem);
+void filling_struct (struct line_info * string_arr, char * buf, int n_elem);
 int  reading_file (char ** buf, FILE ** output, const char * input_name, const char * output_name);
 int  correct_buf  (char * buf, int n_elements);
-struct str_ing * array_space (int n_strings, size_t size);
+struct line_info * array_space (int n_strings, size_t size);
 
 #endif

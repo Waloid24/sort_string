@@ -4,8 +4,8 @@
 
 int alphabetcomp (const void * str1, const void * str2)
 {
-	const char * first_str  = ((struct str_ing *)str1)->p;
-	const char * second_str = ((struct str_ing *)str2)->p;
+	const char * first_str  = ((struct line_info *)str1)->p;
+	const char * second_str = ((struct line_info *)str2)->p;
 
 	return my_strcmp (first_str, second_str);
 }
@@ -29,10 +29,10 @@ int my_strcmp (const char * string1, const char * string2)
 
 int sort_from_end (const void * str1, const void * str2)
 {
-	char * p1 = ((struct str_ing *)str1)->p; //str_ptr1
-	int length_1 = ((struct str_ing *)str1)->length_str;
-	char * p2 = ((struct str_ing *)str2)->p;
-	int length_2 = ((struct str_ing *)str2)->length_str;
+	char * p1 = ((struct line_info *)str1)->p;
+	int length_1 = ((struct line_info *)str1)->length_str;
+	char * p2 = ((struct line_info *)str2)->p;
+	int length_2 = ((struct line_info *)str2)->length_str;
 
 	for (int x_1 = length_1-1, x_2 = length_2-1; x_1 > 0 && x_2 > 0; x_1--, x_2--)
 	{
@@ -87,11 +87,3 @@ void swap(char* first, char* second, size_t size)
 
     free(Temp);
 }
-
-// void swap (const void * str1, const void * str2)
-// {
-// 	const void * temp = nullptr;
-// 	temp = str1;
-// 	str1 = str2;
-// 	str2 = temp;
-// }

@@ -20,7 +20,7 @@ void print_buf_in_file (const char * ptr_1, int n_strings, FILE * output)
 	}
 }
 
-void print_array_in_file (struct str_ing * array_strings, int n_string, FILE * output)
+void print_array_in_file (struct line_info * array_strings, int n_string, FILE * output)
 {
 	MY_ASSERT (array_strings == nullptr, "There is no access to string");
 	for (int i = 0; i < n_string; i++)

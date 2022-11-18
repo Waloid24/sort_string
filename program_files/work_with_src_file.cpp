@@ -6,7 +6,7 @@
 #define DEBUG_SOFT
 
 
-void filling_struct (struct str_ing * mass_1, char * buf, int n_elem_1)
+void filling_struct (struct line_info * mass_1, char * buf, int n_elem_1)
 {
 	mass_1[0].p = buf;
 	for (int num_sym = 0, j = 0; num_sym < n_elem_1 && *buf != EOF; num_sym++)
@@ -41,7 +41,6 @@ int reading_file (char ** buf_elements_1, FILE ** file_output_1, const char * ar
 
 	return n_elem;
 }
-// две функции: одна читает файл с текстом и возвращает указатель на буфер и закрывает файл, вторая открывает файл для вывода и возвращает указатель на него
 
 int correct_buf (char * buf, int n_elements)
 {
@@ -60,9 +59,9 @@ int correct_buf (char * buf, int n_elements)
 	return n_strings + 1;
 }
 
-struct str_ing * array_space (int n_strings, size_t size)
+struct line_info * array_space (int n_strings, size_t size)
 {
-	struct str_ing * array = (struct str_ing *)calloc (n_strings, size);
+	struct line_info * array = (struct line_info *)calloc (n_strings, size);
 	MY_ASSERT (array == NULL, "Memory allocation error\n");
 	return array;
 }
